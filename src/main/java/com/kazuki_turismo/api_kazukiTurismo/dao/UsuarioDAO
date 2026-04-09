@@ -1,0 +1,26 @@
+import com.kazuki_turismo.api_kazukiTurismo.config.DatabaseConfig;
+import com.kazuki_turismo.api_kazukiTurismo.model.Usuario;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class UsuarioDAO {
+    public List<Usuario> listar() throws SQLException {
+        List<Usuario> lista = new ArrayList<>();
+        String sql = "SELECT * FROM usuario";
+        try (Connection con = DatabaseConfig.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Usuario u = new Usuario();
+                u.setIdUsuario(rs.getInt("id_usuario"));
+                u.setNombre(rs.getString("nombre"));
+                u.setCorreo(rs.getString("correo"));
+                u.setClave(rs.getString("contrasena"));
+                u.setRolUsuario(rs.getString("rol_usuario"));
+                lista.add(u);
+            }
+        }
+        return lista;
+    }
+ 
