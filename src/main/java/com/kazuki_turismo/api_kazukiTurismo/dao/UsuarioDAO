@@ -53,4 +53,13 @@ public class UsuarioDAO {
             ps.executeUpdate();
         }
     }
+
+    public void eliminar(int id) throws SQLException {
+        String sql = "DELETE FROM usuario WHERE id_usuario=?";
+        try (Connection con = DatabaseConfig.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        }
+    }
 }
