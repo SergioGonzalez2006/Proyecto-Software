@@ -40,4 +40,13 @@ public class UsuarioController {
             return "Usuario actualizado exitosamente";
         } catch (SQLException e) { return "Error: " + e.getMessage(); }
     }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Eliminar un usuario")
+    public String eliminar(@PathVariable int id) {
+        try {
+            usuarioDAO.eliminar(id);
+            return "Usuario eliminado exitosamente";
+        } catch (SQLException e) { return "Error: " + e.getMessage(); }
+    }
 }
