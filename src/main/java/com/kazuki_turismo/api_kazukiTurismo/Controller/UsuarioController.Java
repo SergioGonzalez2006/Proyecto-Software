@@ -30,4 +30,14 @@ public class UsuarioController {
             return "Usuario creado exitosamente";
         } catch (SQLException e) { return "Error: " + e.getMessage(); }
     }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Actualizar un usuario existente")
+    public String actualizar(@PathVariable int id, @RequestBody Usuario usuario) {
+        try {
+            usuario.setIdUsuario(id);
+            usuarioDAO.actualizar(usuario);
+            return "Usuario actualizado exitosamente";
+        } catch (SQLException e) { return "Error: " + e.getMessage(); }
+    }
 }
