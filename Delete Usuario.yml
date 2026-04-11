@@ -1,0 +1,18 @@
+info:
+  name: Delete Usuario
+  type: http
+  seq: 5
+
+http:
+  method: DELETE
+  url: http://localhost:8080/api-kazukiTurismo/api/usuarios/7
+  body:
+    type: json
+    data: '"Poner el id del usuario a eliminar en la URL"'
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

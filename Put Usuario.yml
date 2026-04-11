@@ -1,0 +1,25 @@
+info:
+  name: Put Usuario
+  type: http
+  seq: 2
+
+http:
+  method: PUT
+  url: http://localhost:8080/api-kazukiTurismo/api/usuarios
+  body:
+    type: json
+    data: |-
+      {
+        "idUsuario": 0,
+        "nombre": "string",
+        "correo": "string",
+        "contrasena": "string",
+        "rolUsuario": "string"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
