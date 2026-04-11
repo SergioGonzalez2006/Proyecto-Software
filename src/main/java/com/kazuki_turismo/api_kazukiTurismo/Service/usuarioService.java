@@ -1,5 +1,4 @@
 package com.kazuki_turismo.api_kazukiTurismo.Service;
-
 import com.kazuki_turismo.api_kazukiTurismo.dao.UsuarioDAO;
 import com.kazuki_turismo.api_kazukiTurismo.model.Usuario;
 import java.sql.SQLException;

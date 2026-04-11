@@ -51,12 +51,26 @@ public class UsuarioDAO {
         }
     }
 
-    public void eliminar(int id) throws SQLException {
+    public boolean eliminar(int id) throws SQLException {
         String sql = "DELETE FROM usuario WHERE id_usuario = ?";
         try (Connection con = DatabaseConfig.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
-            ps.executeUpdate();
+            int filasAfectadas = ps.executeUpdate();
+            return filasAfectadas > 0;
         }
+    }
+    public boolean existeId(int id) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM usuario WHERE id_usuario = ?";
+        try (Connection con = DatabaseConfig.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
     }
 }
