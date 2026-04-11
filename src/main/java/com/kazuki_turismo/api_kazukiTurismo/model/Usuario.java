@@ -4,10 +4,11 @@ public class Usuario {
     private int idUsuario;
     private String nombre;
     private String correo;
-    private String clave;
+    private String contrasena;
     private String rolUsuario;
 
-    // Getters y Setters para cada campo
+    public Usuario() {}
+
     public int getIdUsuario() { return idUsuario; }
     public void setIdUsuario(int idUsuario) { this.idUsuario = idUsuario; }
 
@@ -17,8 +18,8 @@ public class Usuario {
     public String getCorreo() { return correo; }
     public void setCorreo(String correo) { this.correo = correo; }
 
-    public String getClave() { return clave; }
-    public void setClave(String clave) { this.clave = clave; }
+    public String getContrasena() { return contrasena; }
+    public void setContrasena(String contrasena) { this.contrasena = contrasena; }
 
     public String getRolUsuario() { return rolUsuario; }
     public void setRolUsuario(String rolUsuario) { this.rolUsuario = rolUsuario; }
