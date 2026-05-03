@@ -1,17 +1,19 @@
 package com.kazuki_turismo.api_kazukiTurismo.dao;
 
-import com.kazuki_turismo.api_kazukiTurismo.config.DatabaseConfig;
-import com.kazuki_turismo.api_kazukiTurismo.model.Usuario;
-import org.springframework.stereotype.Repository;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
+import com.kazuki_turismo.api_kazukiTurismo.config.DatabaseConfig;
+import com.kazuki_turismo.api_kazukiTurismo.model.Usuario;
+
 public class UsuarioDAO {
 
     public List<Usuario> listar() throws SQLException {
-        List<Usuario> lista = new ArrayList<>();
+        List<Usuario> usuarios = new ArrayList<>();
         String sql = "SELECT * FROM usuario";
         try (Connection con = DatabaseConfig.getConnection();
              PreparedStatement ps = con.prepareStatement(sql);
@@ -21,12 +23,11 @@ public class UsuarioDAO {
                 u.setIdUsuario(rs.getInt("id_usuario"));
                 u.setNombre(rs.getString("nombre"));
                 u.setCorreo(rs.getString("correo"));
-                u.setContrasena(rs.getString("contrasena"));
                 u.setRolUsuario(rs.getString("rol_usuario"));
-                lista.add(u);
+                usuarios.add(u);
             }
         }
-        return lista;
+        return usuarios;
     }
 
     public void insertar(Usuario u) throws SQLException {
@@ -54,12 +55,26 @@ public class UsuarioDAO {
         }
     }
 
-    public void eliminar(int id) throws SQLException {
-        String sql = "DELETE FROM usuario WHERE id_usuario=?";
+    public boolean eliminar(int id) throws SQLException {
+        String sql = "DELETE FROM usuario WHERE id_usuario = ?";
         try (Connection con = DatabaseConfig.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
-            ps.executeUpdate();
+            int filasAfectadas = ps.executeUpdate();
+            return filasAfectadas > 0;
         }
+    }
+    public boolean existeId(int id) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM usuario WHERE id_usuario = ?";
+        try (Connection con = DatabaseConfig.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
     }
 }
