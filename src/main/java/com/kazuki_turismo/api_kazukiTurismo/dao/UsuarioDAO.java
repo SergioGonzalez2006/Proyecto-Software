@@ -19,6 +19,7 @@ public class UsuarioDAO {
                 u.setIdUsuario(rs.getInt("id_usuario"));
                 u.setNombre(rs.getString("nombre"));
                 u.setCorreo(rs.getString("correo"));
+                u.setContrasena(rs.getString("contrasena"));
                 u.setRolUsuario(rs.getString("rol_usuario"));
                 usuarios.add(u);
             }
