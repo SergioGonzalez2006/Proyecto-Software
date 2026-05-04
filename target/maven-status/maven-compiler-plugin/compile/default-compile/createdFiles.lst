@@ -1,0 +1,5 @@
+com\kazuki_turismo\api_kazukiTurismo\model\Usuario.class
+com\kazuki_turismo\api_kazukiTurismo\config\DatabaseConfig.class
+com\kazuki_turismo\api_kazukiTurismo\config\SwaggerConfig.class
+com\kazuki_turismo\api_kazukiTurismo\dao\UsuarioDAO.class
+com\kazuki_turismo\api_kazukiTurismo\ApiKazukiTurismoApplication.class
