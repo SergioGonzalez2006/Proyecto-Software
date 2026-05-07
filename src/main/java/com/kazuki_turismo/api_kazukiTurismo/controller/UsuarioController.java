@@ -1,7 +1,8 @@
 package com.kazuki_turismo.api_kazukiTurismo.controller;
 
-import com.kazuki_turismo.api_kazukiTurismo.dao.UsuarioDAO;
 import com.kazuki_turismo.api_kazukiTurismo.model.Usuario;
+import com.kazuki_turismo.api_kazukiTurismo.Service.usuarioService; 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -11,51 +12,32 @@ import java.util.List;
 @RequestMapping("/api/usuarios")
 public class UsuarioController {
 
-    private final UsuarioDAO usuarioDAO = new UsuarioDAO();
+    @Autowired
+    private usuarioService service; 
 
     @GetMapping
     public List<Usuario> listar() throws SQLException {
-        return usuarioDAO.listar();
+        return service.listar();
     }
 
     @PostMapping
     public String insertar(@RequestBody Usuario usuario) {
-        try {
-            if (usuario.getIdUsuario() > 0 && usuarioDAO.existeId(usuario.getIdUsuario())) {
-                return "No se pudo crear: Ya existe un usuario con el ID " + usuario.getIdUsuario();
-            }
 
-            usuarioDAO.insertar(usuario);
-            return "Usuario creado exitosamente";
-        } catch (SQLException e) {
-            if (e.getErrorCode() == 1062) {
-                return "No se pudo crear: El correo electrónico ya está registrado.";
-            }
-            return "Error al crear usuario: " + e.getMessage();
-        }
+        return service.insertar(usuario);
     }
 
     @PutMapping
     public String actualizar(@RequestBody Usuario usuario) {
-        try {
-            usuarioDAO.actualizar(usuario);
-            return "Usuario actualizado exitosamente";
-        } catch (SQLException e) {
-            return "Error al actualizar usuario: " + e.getMessage();
-        }
+        return service.actualizar(usuario);
     }
 
     @DeleteMapping("/{id}")
-    public String eliminar(@PathVariable int id) {
-        try {
-            boolean eliminado = usuarioDAO.eliminar(id);
-            if (eliminado) {
-                return "Éxito: El usuario con ID " + id + " ha sido eliminado.";
-            } else {
-                return "Aviso: No se encontró ningún usuario con el ID " + id + ". Nada fue borrado.";
-            }
-        } catch (SQLException e) {
-            return "Error técnico: " + e.getMessage();
+    public String eliminar(@PathVariable int id) throws SQLException {
+        boolean eliminado = service.eliminar(id);
+        if (eliminado) {
+            return "Éxito: El usuario con ID " + id + " ha sido eliminado.";
+        } else {
+            return "Aviso: No se encontró ningún usuario con el ID " + id + ". Nada fue borrado.";
         }
     }
 }
