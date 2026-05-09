@@ -1,0 +1,10 @@
+com\kazuki_turismo\api_kazukiTurismo\model\Usuario.class
+com\kazuki_turismo\api_kazukiTurismo\repository\ServicioRepository.class
+com\kazuki_turismo\api_kazukiTurismo\controller\ServicioController.class
+com\kazuki_turismo\api_kazukiTurismo\dao\UsuarioDAO.class
+com\kazuki_turismo\api_kazukiTurismo\ApiKazukiTurismoApplication.class
+com\kazuki_turismo\api_kazukiTurismo\Service\UsuarioServiceImpl.class
+com\kazuki_turismo\api_kazukiTurismo\controller\UsuarioController.class
+com\kazuki_turismo\api_kazukiTurismo\model\Servicio.class
+com\kazuki_turismo\api_kazukiTurismo\config\DatabaseConfig.class
+com\kazuki_turismo\api_kazukiTurismo\Service\usuarioService.class
