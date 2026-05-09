@@ -17,10 +17,10 @@ public class Reserva {
     private Double totalPagar;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario") // Llave foránea a la tabla usuario
+    @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "id_servicio") // Llave foránea a la tabla servicio
+    @JoinColumn(name = "id_servicio")
     private Servicio servicio;
 }

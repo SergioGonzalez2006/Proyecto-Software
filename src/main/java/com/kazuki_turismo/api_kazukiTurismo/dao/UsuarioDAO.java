@@ -1,19 +1,22 @@
 package com.kazuki_turismo.api_kazukiTurismo.dao;
-
 import com.kazuki_turismo.api_kazukiTurismo.config.DatabaseConfig;
 import com.kazuki_turismo.api_kazukiTurismo.model.Usuario;
+import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class UsuarioDAO {
 
     public List<Usuario> listar() throws SQLException {
         List<Usuario> usuarios = new ArrayList<>();
-        String sql = "SELECT * FROM usuario";
+        String sql = "SELECT id_usuario, nombre, correo, contrasena, rol_usuario FROM usuario";
+
         try (Connection con = DatabaseConfig.getConnection();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 Usuario u = new Usuario();
                 u.setIdUsuario(rs.getInt("id_usuario"));
@@ -61,17 +64,15 @@ public class UsuarioDAO {
             return filasAfectadas > 0;
         }
     }
+
     public boolean existeId(int id) throws SQLException {
-        String sql = "SELECT COUNT(*) FROM usuario WHERE id_usuario = ?";
+        String sql = "SELECT id_usuario FROM usuario WHERE id_usuario = ?";
         try (Connection con = DatabaseConfig.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1) > 0;
-                }
+                return rs.next();
             }
         }
-        return false;
     }
 }
