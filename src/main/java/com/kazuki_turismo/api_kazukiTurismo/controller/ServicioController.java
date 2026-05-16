@@ -18,4 +18,19 @@ public class ServicioController {
     public List<Servicio> listar() {
         return repository.findAll();
     }
+
+    @PostMapping
+    public Servicio crear(@RequestBody Servicio servicio) {
+        return repository.save(servicio);
+    }
+
+    @PutMapping
+    public Servicio actualizar(@RequestBody Servicio servicio) {
+        return repository.save(servicio);
+    }
+
+    @DeleteMapping("/{id}")
+    public void eliminar(@PathVariable Integer id) {
+        repository.deleteById(id);
+    }
 }
