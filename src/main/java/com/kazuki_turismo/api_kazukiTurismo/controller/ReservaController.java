@@ -28,4 +28,14 @@ public class ReservaController {
     public Reserva crear(@RequestBody Reserva reserva) {
         return repository.save(reserva);
     }
+
+    @PutMapping
+    public Reserva actualizar(@RequestBody Reserva reserva) {
+        return repository.save(reserva);
+    }
+
+    @DeleteMapping("/{id}")
+    public void eliminar(@PathVariable Integer id) {
+        repository.deleteById(id);
+    }
 }
