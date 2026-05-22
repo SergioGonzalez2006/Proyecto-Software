@@ -30,10 +30,12 @@ public class ReservaController {
     }
 
     @PutMapping
+    @Operation(summary = "Actualizar Reserva", description = "Cambia o actualiza tu reserva")
     public Reserva actualizar(@RequestBody Reserva reserva) {
         return repository.save(reserva);
-    }
 
+    }
+    @Operation(summary = "Eliminar Reserva", description = "Elimina tu reserva actual")
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Integer id) {
         repository.deleteById(id);
