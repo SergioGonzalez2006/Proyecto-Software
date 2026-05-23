@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Perfil - Kazuki Turismo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f4f6f9; font-family: 'Segoe UI', sans-serif; }
+        .brand-gold { color: #dfa836; font-weight: 700; }
+        .profile-card { border: none; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); background: white; }
+        .ticket-card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border-left: 5px solid #dfa836; transition: 0.3s; }
+        .ticket-card:hover { transform: translateY(-2px); }
+        .btn-gold { background-color: #dfa836; color: white; border: none; font-weight: 600; border-radius: 8px; }
+        .btn-gold:hover { background-color: #c5922b; color: white; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-white bg-white shadow-sm py-3 mb-5">
+        <div class="container">
+            <a class="navbar-brand fs-3" th:href="@{/cliente/catalogo}"><i class="fa-solid fa-shield-halved brand-gold me-2"></i>Kazuki <span class="brand-gold">Turismo</span></a>
+            <a th:href="@{/cliente/catalogo}" class="btn btn-light border btn-sm fw-semibold"><i class="fa-solid fa-arrow-left me-1"></i> Volver al Catálogo</a>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width: 850px;">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card profile-card p-4 text-center">
+                    <div class="mb-3"><i class="fa-solid fa-circle-user display-2 text-secondary"></i></div>
+                    <h5 class="fw-bold mb-1">Julissa Mendoza</h5>
+                    <p class="text-muted small">Cliente VIP • Kazuki Club</p>
+                    <hr>
+                    <div class="text-start small text-secondary">
+                        <p class="mb-2"><i class="fa-solid fa-envelope me-2"></i> julissa@turismo.com</p>
+                        <p class="mb-0"><i class="fa-solid fa-location-dot me-2"></i> Medellín, Colombia</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <h4 class="fw-bold text-dark mb-4"><i class="fa-solid fa-plane-departure brand-gold me-2"></i>Mis Itinerarios y Reservas</h4>
+                
+                <div th:if="${#lists.isEmpty(misReservas)}" class="card profile-card p-5 text-center text-muted">
+                    <i class="fa-solid fa-suitcase display-5 text-warning mb-3"></i>
+                    <h5>No tienes viajes programados</h5>
+                    <p class="small">¡Explora nuestro catálogo y agenda tu próximo destino!</p>
+                </div>
+
+                <div th:each="r : ${misReservas}" class="card ticket-card p-4 mb-3 bg-white">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap">
+                        <div>
+                            <h5 class="fw-bold text-dark mb-1" th:text="${r.servicio?.nombreHostal}"></h5>
+                            <span class="badge bg-success-subtle text-success border border-success-subtle mb-3 px-2 py-1" th:text="${r.estadoReserva != null ? r.estadoReserva : 'Confirmado'}"></span>
+                            
+                            <div class="text-muted small">
+                                <p class="mb-1"><i class="fa-regular fa-calendar me-2"></i>Estadía: <span class="fw-semibold" th:text="${r.fechaInicio} + ' al ' + ${r.fechaFinal}"></span></p>
+                                <p class="mb-1"><i class="fa-solid fa-users me-2"></i>Grupo: <span th:text="${r.huspedes} + ' personas'"></span></p>
+                                <p class="mb-0 text-success fw-bold"><i class="fa-solid fa-receipt me-2"></i>Total Pago: COP $<span th:text="${#numbers.formatDecimal(r.pagoTotal != null ? r.pagoTotal : 0, 1, 'POINT', 0, 'COMMA')}"></span></p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex gap-2 mt-3 mt-sm-0">
+                            <a th:href="@{/cliente/reservas/editar/{id}(id=${r.idReserva})}" class="btn btn-light btn-sm border fw-semibold px-3 py-2" title="Reprogramar Fechas">
+                                <i class="fa-solid fa-calendar-days me-1 text-warning"></i> Cambiar Fecha
+                            </a>
+                            <a th:href="@{/cliente/reservas/cancelar/{id}(id=${r.idReserva})}" 
+                               class="btn btn-outline-danger btn-sm fw-semibold px-3 py-2"
+                               onclick="return confirm('¿Estás seguro de que deseas cancelar de forma definitiva este hospedaje?')">
+                                <i class="fa-solid fa-ban me-1"></i> Cancelar Viaje
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
