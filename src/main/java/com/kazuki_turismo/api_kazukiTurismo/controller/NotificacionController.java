@@ -30,7 +30,7 @@ public class NotificacionController {
         return repository.findAll();
     }
     @PostMapping
-    @Operation(summary = "Crear nueva notificación", description = "Genera una alerta validando que existan el usuario (vía JDBC) y la reserva (vía JPA) correspondientes.")
+    @Operation(summary = "Crear nueva notificación", description = "Genera una alerta validando que existan el usuario y la reserva")
     public String guardar(@RequestBody Notificacion notificacion) {
         if (notificacion.getMensajeEnviado() == null || notificacion.getMensajeEnviado().trim().isEmpty()) {
             return "Error: El cuerpo del mensaje de la notificación no puede estar vacío.";
@@ -76,7 +76,7 @@ public class NotificacionController {
         return "Éxito: La notificación con ID " + id + " ha sido actualizada.";
     }
     @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar notificación por ID", description = "Borra una alerta del historial de manera controlada evitando errores 500.")
+    @Operation(summary = "Eliminar notificación por ID", description = "Borra una alerta del historial.")
     public String eliminar(@PathVariable int id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
