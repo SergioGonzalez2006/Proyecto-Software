@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>¡Reserva Confirmada! - Kazuki Turismo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            display: flex;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Contenedor flotante premium */
+        .success-card {
+            background: #ffffff;
+            border: none;
+            border-radius: 24px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+            padding: 45px;
+            text-align: center;
+        }
+        
+        /* Círculo animado del check */
+        .icon-circle {
+            width: 90px;
+            height: 90px;
+            background: rgba(25, 135, 84, 0.08);
+            color: #198754;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 3rem;
+            box-shadow: 0 4px 15px rgba(25, 135, 84, 0.1);
+        }
+        
+        /* Parte caja informativa */
+        .info-bar-custom {
+            background-color: #f8fafc;
+            border-left: 4px solid #dfa836;
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 0.9rem;
+            color: #4a5568;
+            text-align: left;
+        }
+
+        /* Botón de la marca */
+        .btn-gold-back {
+            background-color: #dfa836;
+            color: white;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.95rem;
+        }
+        .btn-gold-back:hover {
+            background-color: #c5922b;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(197, 146, 43, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-6">
+                
+                <div class="card success-card shadow-lg">
+                    
+                    <div class="icon-circle">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    
+                    <h2 class="fw-bold text-dark mb-3">¡Pago Exitoso!</h2>
+                    <p class="lead text-secondary fs-6 mb-4">
+                        Tu reserva ha sido procesada y guardada de forma segura en la base de datos transaccional de Kazuki Turismo.
+                    </p>
+                    
+                    <hr class="text-muted opacity-25 mb-4">
+                    
+                    <div class="info-bar-custom mb-4 shadow-sm">
+                        <div class="d-flex align-items-center mb-1">
+                            <i class="fa-solid fa-shield-halved text-warning me-2"></i>
+                            <strong class="text-dark">Verificación de Integridad</strong>
+                        </div>
+                        El backend ha registrado la transacción bancaria de forma relacional y asignado de inmediato tu cupo de alojamiento en MySQL.
+                    </div>
+                    
+                    <a th:href="@{/cliente/catalogo}" class="btn btn-gold-back w-100 shadow-sm py-3">
+                        Volver al Catálogo <i class="fa-solid fa-house ms-2 small"></i>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
