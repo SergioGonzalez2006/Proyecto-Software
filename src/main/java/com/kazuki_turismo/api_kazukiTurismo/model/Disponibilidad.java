@@ -25,7 +25,6 @@ public class Disponibilidad {
     @Column(name = "estado", nullable = false, length = 50)
     private String estado;
 
-    // Getters y Setters
     public int getIdDisponibilidad() { return idDisponibilidad; }
     public void setIdDisponibilidad(int idDisponibilidad) { this.idDisponibilidad = idDisponibilidad; }
 

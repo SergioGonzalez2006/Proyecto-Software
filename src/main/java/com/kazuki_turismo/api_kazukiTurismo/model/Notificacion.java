@@ -29,7 +29,7 @@ public class Notificacion {
     @Column(name = "fecha_mensaje", nullable = false)
     private LocalDate fechaMensaje;
 
-    // Getters y Setters
+
     public int getIdNotificacion() { return idNotificacion; }
     public void setIdNotificacion(int idNotificacion) { this.idNotificacion = idNotificacion; }
 

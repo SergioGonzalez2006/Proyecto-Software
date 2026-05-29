@@ -45,6 +45,6 @@ public class UsuarioServiceTest {
         assertEquals(1, resultado.size());
         assertEquals("Julissa", resultado.get(0).getNombre());
         
-        System.out.println("¡PRUEBA ACEPTADA!");
+        System.out.println("PRUEBA ACEPTADA");
     }
 }

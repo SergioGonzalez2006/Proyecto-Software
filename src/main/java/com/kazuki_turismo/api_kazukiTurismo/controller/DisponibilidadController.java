@@ -3,6 +3,7 @@ package com.kazuki_turismo.api_kazukiTurismo.controller;
 import com.kazuki_turismo.api_kazukiTurismo.model.Disponibilidad;
 import com.kazuki_turismo.api_kazukiTurismo.repository.DisponibilidadRepository;
 import com.kazuki_turismo.api_kazukiTurismo.repository.ServicioRepository;
+import com.kazuki_turismo.api_kazukiTurismo.dao.DisponibilidadDAO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class DisponibilidadController {
 
     @Autowired
     private ServicioRepository servicioRepository;
+
+    @Autowired
+    private DisponibilidadDAO disponibilidadDAO;
 
     @GetMapping
     @Operation(summary = "Consultar todas las disponibilidades", description = "Retorna el listado completo de fechas y cupos turísticos registrados.")
@@ -42,8 +46,12 @@ public class DisponibilidadController {
             return "Error: Los cupos disponibles no pueden ser una cantidad negativa.";
         }
 
-        repository.save(disponibilidad);
-        return "Éxito: La disponibilidad se ha guardado correctamente.";
+        try {
+            disponibilidadDAO.guardarDisponibilidadNativo(disponibilidad);
+            return "Éxito: La disponibilidad se ha guardado correctamente.";
+        } catch (Exception e) {
+            return "Error al procesar el guardado de disponibilidad : " + e.getMessage();
+        }
     }
 
     @PutMapping("/{id}")
@@ -70,6 +78,16 @@ public class DisponibilidadController {
             return "Éxito: La disponibilidad con ID " + id + " ha sido eliminada.";
         } else {
             return "Aviso: No se encontró ninguna disponibilidad con el ID " + id + ". Nada fue borrado.";
+        }
+    }
+    @PutMapping("/actualizar-cupos/{id}")
+    @Operation(summary = "Actualizar cupos de forma nativa", description = "Modifica los cupos lógicos directamente en la BD usando el DAO.")
+    public String actualizarCupos(@PathVariable int id, @RequestParam int nuevosCupos) {
+        try {
+            disponibilidadDAO.actualizarCuposNativo(id, nuevosCupos);
+            return "Éxito: Cupos actualizados Exitosamente.";
+        } catch (Exception e) {
+            return "Error al actualizar cupos: " + e.getMessage();
         }
     }
 }

@@ -30,10 +30,10 @@ public class Reserva {
     private String estadoReserva;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "Id_Usuario") //La llave foránea a la tabla usuario
+    @JoinColumn(name = "Id_Usuario")
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "Id_Servicio") //La llave foránea a la tabla servicio
+    @JoinColumn(name = "Id_Servicio")
     private Servicio servicio;
 }

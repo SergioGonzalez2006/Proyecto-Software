@@ -29,7 +29,6 @@ public class Pago {
     @Column(name = "fecha_pago", nullable = false)
     private LocalDate fechaPago;
 
-    // Getters y Setters
     public int getIdPago() { return idPago; }
     public void setIdPago(int idPago) { this.idPago = idPago; }
 
