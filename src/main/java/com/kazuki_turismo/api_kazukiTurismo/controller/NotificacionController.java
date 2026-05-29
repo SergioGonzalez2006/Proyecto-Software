@@ -9,6 +9,17 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+import com.kazuki_turismo.api_kazukiTurismo.model.Notificacion;
+import com.kazuki_turismo.api_kazukiTurismo.repository.NotificacionRepository;
+import com.kazuki_turismo.api_kazukiTurismo.repository.ReservaRepository;
+import com.kazuki_turismo.api_kazukiTurismo.dao.UsuarioDAO;
+import com.kazuki_turismo.api_kazukiTurismo.dao.NotificacionDAO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,6 +33,9 @@ public class NotificacionController {
     @Autowired
     private ReservaRepository reservaRepository;
 
+    @Autowired
+    private NotificacionDAO notificacionDAO;
+
     private final UsuarioDAO usuarioDAO = new UsuarioDAO();
 
     @GetMapping
@@ -29,6 +43,7 @@ public class NotificacionController {
     public List<Notificacion> listar() {
         return repository.findAll();
     }
+
     @PostMapping
     @Operation(summary = "Crear nueva notificación", description = "Genera una alerta validando que existan el usuario y la reserva")
     public String guardar(@RequestBody Notificacion notificacion) {
@@ -48,8 +63,12 @@ public class NotificacionController {
             return "Error en la base de datos al validar el usuario: " + e.getMessage();
         }
 
-        repository.save(notificacion);
-        return "Éxito: Notificación registrada y enviada en el sistema.";
+        try {
+            notificacionDAO.guardarNotificacionNativo(notificacion);
+            return "Éxito: Notificación registrada y enviada en el sistema.";
+        } catch (Exception e) {
+            return "Error al procesar el guardado de la notificación: " + e.getMessage();
+        }
     }
 
     @PutMapping("/{id}")
@@ -75,6 +94,7 @@ public class NotificacionController {
         repository.save(notificacion);
         return "Éxito: La notificación con ID " + id + " ha sido actualizada.";
     }
+
     @DeleteMapping("/{id}")
     @Operation(summary = "Eliminar notificación por ID", description = "Borra una alerta del historial.")
     public String eliminar(@PathVariable int id) {

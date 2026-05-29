@@ -2,6 +2,7 @@ package com.kazuki_turismo.api_kazukiTurismo.controller;
 
 import com.kazuki_turismo.api_kazukiTurismo.model.Servicio;
 import com.kazuki_turismo.api_kazukiTurismo.repository.ServicioRepository;
+import com.kazuki_turismo.api_kazukiTurismo.dao.ServicioDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,10 +18,13 @@ public class ServicioController {
     @Autowired
     private ServicioRepository repository;
 
+    @Autowired
+    private ServicioDAO servicioDAO;
+
     @GetMapping
     @Operation(summary = "Listar todos los servicios", description = "Retorna una lista con todos los registros de servicios de la base de datos.")
     public List<Servicio> listar() {
-        return repository.findAll();
+        return servicioDAO.obtenerTodosLosServiciosNativo();
     }
 
     @PostMapping

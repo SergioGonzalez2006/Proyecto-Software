@@ -4,6 +4,7 @@ import com.kazuki_turismo.api_kazukiTurismo.model.Reserva;
 import com.kazuki_turismo.api_kazukiTurismo.repository.ReservaRepository;
 import com.kazuki_turismo.api_kazukiTurismo.repository.ServicioRepository;
 import com.kazuki_turismo.api_kazukiTurismo.repository.UsuarioRepository;
+import com.kazuki_turismo.api_kazukiTurismo.dao.ReservaDAO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class ReservaController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private ReservaDAO reservaDAO;
 
     @GetMapping
     @Operation(summary = "Listar todas las reservas", description = "Obtiene el historial completo de reservas desde la base de datos")
@@ -58,12 +62,11 @@ public class ReservaController {
         reserva.setServicio(servicioOpt.get());
         reserva.setUsuario(usuarioOpt.get());
 
-
         try {
-            repository.save(reserva);
+            reservaDAO.guardarReservaNativo(reserva);
             return "Éxito: La reserva ha sido creada correctamente bajo el ID de usuario " + reserva.getUsuario().getIdUsuario() + ".";
         } catch (Exception e) {
-            return "Error al procesar el guardado de la reserva: " + e.getMessage();
+            return "Error al procesar el guardado de la reserva con DAO: " + e.getMessage();
         }
     }
 

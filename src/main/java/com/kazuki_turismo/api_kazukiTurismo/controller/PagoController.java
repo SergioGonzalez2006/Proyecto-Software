@@ -4,6 +4,7 @@ import com.kazuki_turismo.api_kazukiTurismo.model.Pago;
 import com.kazuki_turismo.api_kazukiTurismo.model.Reserva;
 import com.kazuki_turismo.api_kazukiTurismo.repository.PagoRepository;
 import com.kazuki_turismo.api_kazukiTurismo.repository.ReservaRepository;
+import com.kazuki_turismo.api_kazukiTurismo.dao.PagoDAO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class PagoController {
     @Autowired
     private ReservaRepository reservaRepository;
 
+    @Autowired
+    private PagoDAO pagoDAO;
+
     @GetMapping
     @Operation(summary = "Listar todos los pagos", description = "Muestra el historial de todas las transacciones monetarias registradas.")
     public List<Pago> listar() {
@@ -37,9 +41,8 @@ public class PagoController {
             return "Error: Debe especificar una reserva válida para procesar el pago.";
         }
 
-
         Optional<Reserva> reservaOptional = reservaRepository.findById(pago.getReserva().getIdReserva());
-        if (!reservaOptional.isPresent()) {
+        if (reservaOptional.isEmpty()) {
             return "Error: La reserva con ID " + pago.getReserva().getIdReserva() + " no existe. Pago cancelado.";
         }
 
@@ -55,8 +58,13 @@ public class PagoController {
         }
 
         pago.setReserva(reservaReal);
-        repository.save(pago);
-        return "Éxito: El pago ha sido registrado correctamente y coincide con el total de la reserva.";
+
+        try {
+            pagoDAO.registrarPagoNativo(pago);
+            return "Éxito: El pago ha sido registrado correctamente y coincide con el total de la reserva.";
+        } catch (Exception e) {
+            return "Error al procesar el guardado del pago: " + e.getMessage();
+        }
     }
 
     @PutMapping("/{id}")
@@ -70,9 +78,8 @@ public class PagoController {
             return "Error: La reserva vinculada a este pago no es válida.";
         }
 
-
         Optional<Reserva> reservaOptional = reservaRepository.findById(pago.getReserva().getIdReserva());
-        if (!reservaOptional.isPresent()) {
+        if (reservaOptional.isEmpty()) {
             return "Error: La reserva vinculada con ID " + pago.getReserva().getIdReserva() + " no existe.";
         }
         Reserva reservaReal = reservaOptional.get();

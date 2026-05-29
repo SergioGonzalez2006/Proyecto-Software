@@ -1,12 +1,17 @@
 package com.kazuki_turismo.api_kazukiTurismo.dao;
 import com.kazuki_turismo.api_kazukiTurismo.config.DatabaseConfig;
 import com.kazuki_turismo.api_kazukiTurismo.model.Usuario;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+@RequestMapping("/api/usuarios")
+@Tag(name = "Controlador de Usuarios", description = "Gestion de Usuarios")
 public class UsuarioDAO {
 
     public List<Usuario> listar() throws SQLException {
