@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Perfil - Kazuki Turismo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f7f6;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .navbar-custom {
+            background-color: #1a202c;
+        }
+        .card-profile {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .notification-box {
+            background-color: #fffdf5;
+            border-left: 5px solid #dfa836;
+            border-radius: 8px;
+        }
+        .badge-fk {
+            background-color: #e2e8f0;
+            color: #4a5568;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+        .badge-pk {
+            background-color: #feebc8;
+            color: #c05621;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-dark navbar-custom shadow-sm mb-4">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="fa-solid fa-plane-departure text-warning me-2"></i>Kazuki <span style="color: #dfa836;">Turismo</span>
+            </a>
+            <span class="navbar-text text-white small">
+                <i class="fa-solid fa-circle-user me-1 text-success"></i> Sesión Cliente Activa
+            </span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row g-4">
+            
+            <div class="col-md-4">
+                <div class="card card-profile p-4 text-center bg-white">
+                    <div class="mb-3">
+                        <div class="bg-light d-inline-block rounded-circle p-4 mb-2">
+                            <i class="fa-solid fa-user-tie fa-3x text-secondary"></i>
+                        </div>
+                        <h4 class="fw-bold text-dark mb-0" th:text="${usuario != null ? usuario.nombre : 'Cliente Kazuki'}">Nombre</h4>
+                        <span class="badge bg-dark mt-1 text-uppercase px-3 py-1.5" th:text="${usuario != null ? usuario.rolUsuario : 'CLIENTE'}">CLIENTE</span>
+                    </div>
+                    <hr class="text-muted">
+                    <div class="text-start small">
+                        <p class="mb-2"><strong><i class="fa-solid fa-envelope me-2 text-muted"></i>Correo:</strong> <br><span class="text-muted" th:text="${usuario != null ? usuario.correo : 'sin-correo@mail.com'}"></span></p>
+                        <p class="mb-0"><strong><i class="fa-solid fa-shield-halved me-2 text-muted"></i>Estado Cuenta:</strong> <span class="text-success ms-1 fw-bold">Verificado</span></p>
+                    </div>
+                    <div class="mt-4">
+                        <a th:href="@{/cliente/catalogo}" class="btn btn-outline-secondary btn-sm w-100 mb-2">Ir al Catálogo de Hostales</a>
+                        <a th:href="@{/cliente/login}" class="btn btn-danger btn-sm w-100">Cerrar Sesión <i class="fa-solid fa-right-from-bracket ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card card-profile p-4 bg-white">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold text-dark m-0">
+                            <i class="fa-solid fa-bell text-warning me-2"></i>Buzón de Notificaciones del Sistema
+                        </h5>
+                        <span class="badge bg-primary rounded-pill">1 Alerta Pendiente</span>
+                    </div>
+
+                    <div class="notification-box p-4 mb-3 border shadow-sm">
+                        <div class="row g-2 mb-3 border-bottom pb-2 text-muted small">
+                            <div class="col-sm-4">
+                                <strong><i class="fa-solid fa-fingerprint me-1"></i>Id_Notificacion (PK):</strong> <br>
+                                <span class="badge badge-pk mt-1" th:text="${idNotificacion}">PK-X</span>
+                            </div>
+                            <div class="col-sm-4">
+                                <strong><i class="fa-solid fa-receipt me-1"></i>Id_Reserva (FK):</strong> <br>
+                                <span class="badge badge-fk mt-1" th:text="${idReservaFk}">FK-R</span>
+                            </div>
+                            <div class="col-sm-4">
+                                <strong><i class="fa-solid fa-user-tag me-1"></i>Id_Usuario (FK):</strong> <br>
+                                <span class="badge badge-fk mt-1" th:text="${idUsuarioFk}">FK-U</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-2">
+                            <span class="badge bg-warning text-dark text-uppercase fw-bold mb-2" style="font-size: 0.75rem;" th:text="${tipoNotificacion}">
+                                TIPO NOTIFICACIÓN
+                            </span>
+                            <h6 class="fw-bold text-dark mb-1">Confirmación de Transacción Inmediata</h6>
+                            <p class="text-secondary mb-0" style="font-size: 0.95rem; text-align: justify;" th:text="${mensajeEnviado}">
+                                Cuerpo del mensaje enviado al cliente informando los detalles.
+                            </p>
+                        </div>
+
+                        <div class="text-end text-muted mt-3 pt-2 border-top" style="font-size: 0.8rem;">
+                            <i class="fa-solid fa-calendar-day me-1"></i> <strong>FechaMensaje:</strong> 
+                            <span th:text="${fechaMensaje}">2026-05-22</span>
+                        </div>
+                    </div>
+
+                    <div th:if="${reserva}" class="p-3 bg-light rounded-3 border">
+                        <h6 class="fw-bold text-dark small mb-2"><i class="fa-solid fa-circle-info me-1 text-primary"></i> Resumen de Estadía Vinculado</h6>
+                        <div class="row text-center small g-2">
+                            <div class="col-4 bg-white py-1.5 border rounded">
+                                <span class="text-muted d-block" style="font-size: 0.7rem;">Hospedaje</span>
+                                <strong class="text-dark" th:text="${reserva.servicio != null ? reserva.servicio.nombreHostal : 'Hostal'}"></strong>
+                            </div>
+                            <div class="col-4 bg-white py-1.5 border rounded">
+                                <span class="text-muted d-block" style="font-size: 0.7rem;">Monto Total</span>
+                                <strong class="text-success" th:text="'COP $' + ${#numbers.formatDecimal(reserva.pagoTotal, 1, 'POINT', 0, 'COMMA')}"></strong>
+                            </div>
+                            <div class="col-4 bg-white py-1.5 border rounded">
+                                <span class="text-muted d-block" style="font-size: 0.7rem;">Estado Reserva</span>
+                                <strong class="text-primary" th:text="${reserva.estadoReserva}"></strong>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
