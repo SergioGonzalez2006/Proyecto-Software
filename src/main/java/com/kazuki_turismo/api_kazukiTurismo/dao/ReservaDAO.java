@@ -12,7 +12,7 @@ public class ReservaDAO {
     private JdbcTemplate jdbcTemplate;
 
     public void guardarReservaNativo(Reserva reserva) {
-        String sql = "INSERT INTO reserva (fecha_inicio, fecha_final, huespedes, pago_total, estado_reserva, id_servicio, id_usuario) " +
+        String sql = "INSERT INTO reserva (fecha_inicio, fecha_final, huspedes, pago_total, estado_reserva, id_servicio, id_usuario) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         jdbcTemplate.update(sql,
